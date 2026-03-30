@@ -8,14 +8,15 @@ cursor.execute("""
 		mrn TEXT PRIMARY KEY,
 		name TEXT,
 		age INTEGER,
-		a1c REAL
+		a1c REAL,
+		on_insulin INTEGER
 	)
 """)
 
-cursor.execute("INSERT INTO patients VALUES ('001', 'Garcia, Maria', 67, 8.2)")
-cursor.execute("INSERT INTO patients VALUES ('002', 'Johnson, Tom', 54, 7.1)")
-cursor.execute("INSERT INTO patients VALUES ('003', 'Patel, Anita', 71, 9.4)")
-cursor.execute("INSERT INTO patients VALUES ('004', 'Lee, James', 48, 6.8)")
+cursor.execute("INSERT INTO patients VALUES ('001', 'Garcia, Maria', 67, 8.2, 1)")
+cursor.execute("INSERT INTO patients VALUES ('002', 'Johnson, Tom', 54, 7.1, 0)")
+cursor.execute("INSERT INTO patients VALUES ('003', 'Patel, Anita', 71, 9.4, 0)")
+cursor.execute("INSERT INTO patients VALUES ('004', 'Lee, James', 48, 6.8, 1)")
 
 conn.commit()
 conn.close()

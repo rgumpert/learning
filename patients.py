@@ -5,7 +5,7 @@ import sqlite3
 conn = sqlite3.connect("patients.db")
 cursor = conn.cursor()
 
-cursor.execute("SELECT mrn, name, age, a1c FROM patients")
+cursor.execute("SELECT mrn, name, age, a1c, on_insulin FROM patients")
 rows = cursor.fetchall()
 
 patients = []
@@ -14,18 +14,28 @@ for row in rows:
 		"mrn": row[0],
 		"name": row[1],
 		"age": row[2],
-		"a1c": row[3]
+		"a1c": row[3],
+		"on_insulin": bool(row[4])
 	})
 
 conn.close()
 
 for patient in patients:
+	flags = []
+
 	if patient["a1c"] > 9.0:
 		print(f"{patient['name']} - urgent follow-up. A1c: {patient['a1c']}")
 	elif patient["a1c"] > 7.5:
 		print(f"{patient['name']} - routine follow-up. A1c: {patient['a1c']}")
 	else:
 		print(f"{patient['name']} - at goal. A1c: {patient['a1c']}")
+
+	if patient["age"] > 65 and patient["on_insulin"]:
+		flags.append("high fall/hypoglycemia risk (>65 + insulin)")
+
+	if flags:
+		for flag in flags:
+			print(f"  ⚠ {flag}")
 
 
 
